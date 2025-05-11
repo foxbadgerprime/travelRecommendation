@@ -1,6 +1,10 @@
 const addPatientButton = document.getElementById("addPatient");
 const report = document.getElementById("report");
+
 const btnSearch = document.getElementById('btnSearch');
+const btnReset  = document.getElementById('btnReset');
+
+
 const patients = [];
 
 function addPatient() {
@@ -94,5 +98,16 @@ function searchCondition() {
         console.error('Error:', error);
         resultDiv.innerHTML = 'An error occurred while fetching data.';
       });
-  }
-    btnSearch.addEventListener('click', searchCondition);
+}
+
+btnSearch.addEventListener('click', searchCondition);
+
+
+function searchReset() {
+    const input = document.getElementById('conditionInput').value.toLowerCase();
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '';
+
+
+}
+btnReset.addEventListener('click', searchCondition);
