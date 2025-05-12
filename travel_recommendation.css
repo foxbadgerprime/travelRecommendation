@@ -1,8 +1,6 @@
 body {
-    background-image: url('./img/background.jpg');
+    background: #f0f0f0 url('./img/background.jpg') no-repeat center center fixed;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     min-height: 100vh;
     margin: 0;
     overflow-x: hidden;
@@ -15,5 +13,37 @@ body {
         font-size: 2.5rem;
         font-weight: 800;
         margin-bottom: 19px;
+    }
+}
+
+.content {
+    background-color: rgba(248, 249, 250, 0.95) !important;
+}
+
+.rainbow-button {
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 400% 100%;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    background-position: 50% 50%; /* Static color when not pressed */
+}
+
+.rainbow-button:active {
+    animation: rainbow-animation 1s linear infinite;
+    transform: scale(0.95);
+}
+
+@keyframes rainbow-animation {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
     }
 }
