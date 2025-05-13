@@ -114,50 +114,79 @@ function searchReset() {
 
 
 
+
+
+
+
 document.getElementById('searchForm').addEventListener('submit', function(event) {
   event.preventDefault();
-  console.log('Form submission prevented.');
+  console.log('preventDefault(): Keep form from submitting');
 });
 
 
+
+function getCategoryFromInput(input) {
+  const patterns = [
+    { regex: /\b(beach|beaches|coast|seashore)\b/i, category: 'beaches' },
+    { regex: /\b(temple|temples|shrine|pagoda)\b/i, category: 'temples' },
+    { regex: /\b(country|countries|nation)\b/i, category: 'countries' }
+  ];
+
+  for (const { regex, category } of patterns) {
+    if (regex.test(input)) return category;
+  }
+
+  return null;
+}
+
+
+
 function searchDestination() {
-  const input = document.getElementById('destinationInput').value.toLowerCase();
+  const input = document.getElementById('destinationInput').value.toLowerCase().trim();
   console.log("Search input: " + input);
 
   const resultDiv = document.getElementById('searchResult');
-  resultDiv.innerHTML = '<section class="d-flex justify-content-center align-items-center min-vh-100x mt-5">xxxxxxxxxxx';
+  resultDiv.innerHTML = '';
 
-  fetch('travel_recommendation_api.json')
+  const section = document.createElement('section');
+  section.className = 'd-flex justify-content-center align-items-center min-vh-100x mt-5';
+
+  const div = document.createElement('div');
+  div.className = 'w-100 bg-light text-dark p-5 rounded shadow content';
+
+  section.appendChild(div);
+  resultDiv.appendChild(section);
+
+  fetch('travel-recommendation.json')
     .then(response => response.json())
     .then(data => {
-      console.log("Data fetched: ", data);
+      const category = getCategoryFromInput(input);
+      console.log("Category: " + category);
 
+      if (category) {
+        const results = data[category];
 
-      const countries = data.countries.find(item => item.name.toLowerCase() === input);
-
-      resultDiv.innerHTML = '<section class="d-flex justify-content-center align-items-center min-vh-100x mt-5">';
-      if (countries) {
-        const cities       = countries.cities;
-        const images       = countries.imageUrl.join(', ');
-        const descriptions = countries.description.join(', ');
-
-        resultDiv.innerHTML += `<h2>${cities.name}</h2>`;
-        // resultDiv.innerHTML += `<img src="${countries.imagesrc}" alt="">`;
-
-        // resultDiv.innerHTML += `<p><strong>Symptoms:</strong> ${symptoms}</p>`;
-        // resultDiv.innerHTML += `<p><strong>Prevention:</strong> ${prevention}</p>`;
-        // resultDiv.innerHTML += `<p><strong>Treatment:</strong> ${treatment}</p>`;
+        div.innerHTML += `<h2 class="mb-4 text-capitalize">${category}</h2>`;
+        results.forEach(item => {
+          div.innerHTML += `
+            <div class="mb-4">
+              <h4>${item.name}</h4>
+              ${item.imageUrl ? `<img src="./img/destinations/${item.imageUrl}" alt="${item.name}" class="img-fluid mb-2 rounded" style="max-height:200px;">` : ''}
+              <p>${item.description || ''}</p>
+            </div>
+          `;
+        });
       } else {
-        resultDiv.innerHTML += 'Destination not found.';
+        div.innerHTML += '<h2 class="fs-3"><i class="fa-solid fa-heart-crack fa-beat-fade"></i> <strong>Oh, no!</strong><br>Such a location was not found!</h2>';
+        div.innerHTML += '<p><small>(<strong>Hint:</strong> Try searching for <em>countries</em>, <em>beaches</em>, or <em>temples</em>.)</small></p>';
       }
-      resultDiv.innerHTML += '</section>';
     })
     .catch(error => {
       console.error('Error:', error);
-      resultDiv.innerHTML = 'An error occurred while fetching data.';
+      div.innerHTML = '<h2 class="fs-3"><i class="fa-solid fa-bomb fa-beat-fade"></i> <strong>Yikes!</strong><br>An error occurred while fetching destination data! Our team has been notified of the problem.</h2>';
     });
 }
 
-btnSearch.addEventListener('click', searchDestination);
+document.getElementById('btnSearch').addEventListener('click', searchDestination);
 
 

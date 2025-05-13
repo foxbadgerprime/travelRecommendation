@@ -37,10 +37,12 @@ body > nav {
     background-color: rgba(248, 249, 250, 0.95) !important;
 }
 
+.fa-bomb         {color: var(--color-7);}
+.fa-earth-asia   {color: var(--color-2);}
+.fa-face-smile   {color: var(--color-2);}
+.fa-heart-crack  {color: var(--color-7);}
 .fa-location-dot {color: var(--color-1);}
-.fa-earth-asia {color: var(--color-2);}
-.fa-face-smile {color: var(--color-2);}
-.fa-message    {color: var(--color-2);}
+.fa-message      {color: var(--color-2);}
 
 .rainbow-button {
     /* background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet); */
