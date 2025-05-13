@@ -1,3 +1,15 @@
+
+:root {
+  --color-1: #f1efe7; /* Sky / clouds */
+  --color-2: #2e5b90; /* Ocean / water */
+  --color-3: #b4875c; /* Earth / terrain */
+  --color-4: #487447; /* Forest / greenery */
+  --color-5: #c4cfd6; /* Snow / light sky */
+  --color-6: #a1603d; /* Desert / sand */
+  --color-7: #623c31; /* Building / brick tones */
+  --color-8: #a0ab79; /* Grassland / natural areas */
+}
+
 body {
     background: #f0f0f0 url('./img/background.jpg') no-repeat center center fixed;
     background-size: cover;
@@ -16,22 +28,36 @@ body {
     }
 }
 
+body > nav {
+  background-color: var(--color-2) !important;
+  color: var(--color-5) !important !important;
+}
+
 .content {
     background-color: rgba(248, 249, 250, 0.95) !important;
 }
 
+.fa-location-dot {color: var(--color-1);}
+.fa-earth-asia {color: var(--color-2);}
+.fa-face-smile {color: var(--color-2);}
+.fa-message    {color: var(--color-2);}
+
 .rainbow-button {
-    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    /* background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet); */
+    /* background: linear-gradient(90deg, #623c31, #a1603d, #b4875c, #a0ab79, #487447, #2e5b90, #c4cfd6, #f1efe7); */
+    background-position: 50% 50%; /* Static color when not pressed */
+    background-color: var(--color-2);
     background-size: 400% 100%;
     color: white;
-    border: none;
-    padding: 10px 20px;
+    color: var(--color-1);
+    cursor: pointer;
     font-size: 1rem;
     font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border: none;
     border-radius: 5px;
-    cursor: pointer;
     transition: transform 0.2s ease-in-out;
-    background-position: 50% 50%; /* Static color when not pressed */
 }
 
 .rainbow-button:active {
