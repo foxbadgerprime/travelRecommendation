@@ -22,7 +22,7 @@
         <li class="nav-item"><a class="nav-link link-light" href="./about.html">About Us</a></li>
         <li class="nav-item"><a class="nav-link link-light" href="./contact.html">Contact Us</a></li>
       </ul>
-      <form class="d-flex" role="search">
+      <form class="d-flex" role="search" id="searchForm">
         <input class="form-control me-2" type="search" id="destinationInput" placeholder="Destination or keyword" aria-label="Search"/>
         <button class="btn btn-outline-light mx-2" type="submit" id="btnSearch">Search</button>
         <button class="btn btn-outline-light mx-2" type="reset" id="btnReset">Clear</button>
@@ -44,7 +44,9 @@
       
       </section>
     </div>
-  </div>
+    <div class="col-md-6">
+      <div id="searchResult"></div>
+    </div>
 </div>
 
 <footer class="bg-light text-dark py-3 fixed-bottom">
