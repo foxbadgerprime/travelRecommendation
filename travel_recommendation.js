@@ -1,135 +1,51 @@
-const addPatientButton = document.getElementById("addPatient");
-const report = document.getElementById("report");
+// Search form validation and submission
+// =========================================================
+const searchForm = document.getElementById('searchForm');
+if (searchForm) {
+  searchForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    console.log('preventDefault(): Keep form from submitting');
+  });
+}
+
+const btnReset = document.getElementById('btnReset');
+if (btnReset) {
+  btnReset.addEventListener('click', searchReset);
+} else {
+  console.warn('searchReset: btnReset element not found.');
+}
 
 const btnSearch = document.getElementById('btnSearch');
-const btnReset  = document.getElementById('btnReset');
-
-
-const patients = [];
-
-function addPatient() {
-    const name = document.getElementById("name").value;
-    const gender = document.querySelector('input[name="gender"]:checked');
-    const age = document.getElementById("age").value;
-    const condition = document.getElementById("condition").value;
-
-    if (name && gender && age && condition) {
-        patients.push({ name, gender: gender.value, age, condition });
-        resetForm();
-        generateReport();
-    }
+if (btnSearch) {
+  btnSearch.addEventListener('click', searchDestination);
+} else {
+  console.warn('btnSearch: btnSearch element not found.');
 }
 
-function resetForm() {
-    document.getElementById("name").value = "";
-    document.querySelector('input[name="gender"]:checked').checked = false;
-    document.getElementById("age").value = "";
-    document.getElementById("condition").value = "";
-}
 
-function generateReport() {
-    const numPatients = patients.length;
-    const conditionsCount = {
-      Diabetes: 0,
-      Thyroid: 0,
-      "High Blood Pressure": 0,
-    };
-    const genderConditionsCount = {
-      Male: {
-        Diabetes: 0,
-        Thyroid: 0,
-        "High Blood Pressure": 0,
-      },
-      Female: {
-        Diabetes: 0,
-        Thyroid: 0,
-        "High Blood Pressure": 0,
-      },
-    };
-
-    for (const patient of patients) {
-      conditionsCount[patient.condition]++;
-      genderConditionsCount[patient.gender][patient.condition]++;
-    }
-
-    report.innerHTML = `Number of patients: ${numPatients}<br><br>`;
-    report.innerHTML += `Conditions Breakdown:<br>`;
-    for (const condition in conditionsCount) {
-      report.innerHTML += `${condition}: ${conditionsCount[condition]}<br>`;
-    }
-
-    report.innerHTML += `<br>Gender-Based Conditions:<br>`;
-    for (const gender in genderConditionsCount) {
-      report.innerHTML += `${gender}:<br>`;
-      for (const condition in genderConditionsCount[gender]) {
-        report.innerHTML += `&nbsp;&nbsp;${condition}: ${genderConditionsCount[gender][condition]}<br>`;
-      }
-    }
-  }
-
-// addPatientButton.addEventListener("click", addPatient);
-
-function searchCondition() {
-    const input = document.getElementById('conditionInput').value.toLowerCase();
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = '';
-
-    fetch('health_analysis.json')
-      .then(response => response.json())
-      .then(data => {
-        const condition = data.conditions.find(item => item.name.toLowerCase() === input);
-
-        if (condition) {
-          const symptoms = condition.symptoms.join(', ');
-          const prevention = condition.prevention.join(', ');
-          const treatment = condition.treatment;
-
-          resultDiv.innerHTML += `<h2>${condition.name}</h2>`;
-          resultDiv.innerHTML += `<img src="${condition.imagesrc}" alt="hjh">`;
-
-          resultDiv.innerHTML += `<p><strong>Symptoms:</strong> ${symptoms}</p>`;
-          resultDiv.innerHTML += `<p><strong>Prevention:</strong> ${prevention}</p>`;
-          resultDiv.innerHTML += `<p><strong>Treatment:</strong> ${treatment}</p>`;
-        } else {
-          resultDiv.innerHTML = 'Condition not found.';
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        resultDiv.innerHTML = 'An error occurred while fetching data.';
-      });
-}
-
-// btnSearch.addEventListener('click', searchCondition);
-
-
+// Resets the search input and result display
+// =========================================================
 function searchReset() {
-    const input = document.getElementById('conditionInput').value.toLowerCase();
-    const resultDiv = document.getElementById('result');
+  const inputElement = document.getElementById('destinationInput');
+  const resultDiv = document.getElementById('searchResult');
+  
+  if (inputElement && resultDiv) {
+    inputElement.value = '';
     resultDiv.innerHTML = '';
-
-
+  } else {
+    console.warn('searchReset: Required elements not found.');
+  }
 }
-// btnReset.addEventListener('click', searchCondition);
 
 
-
-
-
-
-
-document.getElementById('searchForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-  console.log('preventDefault(): Keep form from submitting');
-});
-
-
-
+// Uused to categorize the user input into predefined categories
+// and uses regular expressions to match keywords in the input string
+// =========================================================
 function getCategoryFromInput(input) {
   const patterns = [
     { regex: /\b(beach|beaches|coast|seashore)\b/i, category: 'beaches' },
     { regex: /\b(temple|temples|shrine|pagoda)\b/i, category: 'temples' },
-    { regex: /\b(country|countries|nation)\b/i, category: 'countries' }
+    { regex: /\b(country|countries|nation)\b/i,     category: 'countries' }
   ];
 
   for (const { regex, category } of patterns) {
@@ -140,10 +56,54 @@ function getCategoryFromInput(input) {
 }
 
 
+// Formats the results based on the category and displays them in the result div
+// Dependencies: function.formatResultsDestination()
+// =========================================================
+function formatResults(div, category, results) {
+  div.innerHTML += `<h2 class="mb-4 text-capitalize">${category}</h2>`;
+  // div.innerHTML += `<p class="mb-4">Here are some ${category} you might want to visit:</p>`;
 
+  results.forEach(item => {
+    div.innerHTML += `<hr>`;
+    div.innerHTML += `<div class="mb-4">`;
+    if (category === 'countries') {
+      // Sort countries and cities alphabetically
+      results.sort((a, b) => a.name.localeCompare(b.name));
+      item.cities.sort((a, b) => a.name.localeCompare(b.name));
+      item.cities.forEach(city => {
+        // console.log(city.name);
+        div.innerHTML += `<h3>${city.name}</h3>`;
+        formatResultsDestination(div, city);
+      });
+    } else {
+      // console.log(item.name);
+      div.innerHTML += `<h3>${item.name}</h3>`;
+      formatResultsDestination(div, item);
+    }
+    div.innerHTML += `</div>`;
+  });
+  
+}
+
+
+// Formats the results card for each destination
+// =========================================================
+function formatResultsDestination(div, input) {
+  div.innerHTML += `
+  ${input.imageUrl ? `<img src="./img/destinations/${input.imageUrl}" alt="${input.imageAlt}" class="img-fluid mb-2 rounded">` : ''}
+  <p>${input.description || ''}<br>
+  <a href="./contact.html?destination=${input.name}" class="btn btn-sm btn-light shadow mt-3 mb-4">Book Now <i class="fa-solid fa-arrow-right fa-beat-fade ms-2" style="--fa-animation-duration: 2.5s;"></i></a></p>
+`;
+}
+
+
+// Fetches the travel recommendation data and displays results based on user input
+// Dependencies: fetch API, JSON data file (travel-recommendation.json), function.getCategoryFromInput(), function.formatResults(), and Bootstrap for styling
+// =========================================================
 function searchDestination() {
+  const json = './_data/travel-recommendation.json';
   const input = document.getElementById('destinationInput').value.toLowerCase().trim();
-  console.log("Search input: " + input);
+  // console.log("Search input: " + input);
 
   const resultDiv = document.getElementById('searchResult');
   resultDiv.innerHTML = '';
@@ -157,25 +117,14 @@ function searchDestination() {
   section.appendChild(div);
   resultDiv.appendChild(section);
 
-  fetch('travel-recommendation.json')
+  fetch(json)
     .then(response => response.json())
     .then(data => {
       const category = getCategoryFromInput(input);
-      console.log("Category: " + category);
 
       if (category) {
         const results = data[category];
-
-        div.innerHTML += `<h2 class="mb-4 text-capitalize">${category}</h2>`;
-        results.forEach(item => {
-          div.innerHTML += `
-            <div class="mb-4">
-              <h4>${item.name}</h4>
-              ${item.imageUrl ? `<img src="./img/destinations/${item.imageUrl}" alt="${item.name}" class="img-fluid mb-2 rounded" style="max-height:200px;">` : ''}
-              <p>${item.description || ''}</p>
-            </div>
-          `;
-        });
+        formatResults(div, category, results);
       } else {
         div.innerHTML += '<h2 class="fs-3"><i class="fa-solid fa-heart-crack fa-beat-fade"></i> <strong>Oh, no!</strong><br>Such a location was not found!</h2>';
         div.innerHTML += '<p><small>(<strong>Hint:</strong> Try searching for <em>countries</em>, <em>beaches</em>, or <em>temples</em>.)</small></p>';
@@ -183,10 +132,52 @@ function searchDestination() {
     })
     .catch(error => {
       console.error('Error:', error);
-      div.innerHTML = '<h2 class="fs-3"><i class="fa-solid fa-bomb fa-beat-fade"></i> <strong>Yikes!</strong><br>An error occurred while fetching destination data! Our team has been notified of the problem.</h2>';
+      div.innerHTML =  '<h2 class="fs-3"><i class="fa-solid fa-bomb fa-beat-fade"></i> <strong>Yikes!</strong> There has been an error!</h2>';
+      div.innerHTML += '<p>An error occurred while fetching destination data! Our team has been notified of the problem.</p>';
     });
 }
 
-document.getElementById('btnSearch').addEventListener('click', searchDestination);
 
+// Contact form validation and submission
+// =========================================================
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const form = event.target;
+    if (!form.checkValidity()) {
+      form.classList.add('was-validated');
+      return;
+    }
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const destination = urlParams.get('destination');
+    console.log('Destination:', destination);
+    if (destination) {
+      message.value += `I am interested in learning more about ${destination}.`;
+    }
+
+
+    if (!name || !email || !message) {
+      alert('All fields are required.');
+      return;
+    }
+
+    console.log('Name:', name);
+    console.log('Email:', email);
+    console.log('Message:', message);
+
+    // Replace form with response message
+    const responseMessage = document.createElement('div');
+    responseMessage.className  = 'alert alert-success mt-3';
+    responseMessage.innerHTML  = '<h3><i class="fa-solid fa-paper-plane fa-shake primary fs-3"  style="color: #fff; --fa-animation-duration: 5s;" aria-hidden="true"></i> Thank you!</h3><p class="fs-5"></h3>';
+    responseMessage.innerHTML += '<p>Your message has been sent successfully to Katherine Nguyen! She will be in contact very soon! Adventure awaits!</p>';
+    responseMessage.innerHTML += '<p class="small"><em>(Logged to console.)</em></p>';
+    form.parentNode.replaceChild(responseMessage, form);
+  });
+}
 

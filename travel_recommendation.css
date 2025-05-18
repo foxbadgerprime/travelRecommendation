@@ -44,9 +44,25 @@ body > nav {
 .fa-location-dot {color: var(--color-1);}
 .fa-message      {color: var(--color-2);}
 
-.rainbow-button {
+.invalid-feedback span {
+    background-color: var(--color-7);
+    color: var(--color-1);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: .8rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-top: 4px;
+    display: inline-block;
+}
+
+.btn-sm {
+    background-color: var(--color-4);
+    color: var(--color-1);
+}
+
+.btn-rainbow {
     /* background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet); */
-    /* background: linear-gradient(90deg, #623c31, #a1603d, #b4875c, #a0ab79, #487447, #2e5b90, #c4cfd6, #f1efe7); */
     background-position: 50% 50%; /* Static color when not pressed */
     background-color: var(--color-2);
     background-size: 400% 100%;
@@ -57,12 +73,28 @@ body > nav {
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     padding: 10px 20px;
-    border: none;
+    border: 1px solid var(--color-2);
     border-radius: 5px;
     transition: transform 0.2s ease-in-out;
 }
 
-.rainbow-button:active {
+.btn-rainbow:hover,
+.btn-rainbow:focus {
+    background: linear-gradient(90deg, #623c31, #a1603d, #b4875c, #a0ab79, #487447, #2e5b90, #c4cfd6, #f1efe7);
+    background-position: 50% 50%;
+    background-size: 400% 100%;
+    color: white;
+    color: var(--color-1);
+    border: 1px solid var(--color-2);
+    animation: rainbow-animation 5s linear infinite;
+    transform: scale(1.05);
+}
+.btn-rainbow:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.btn-rainbow:active {
     animation: rainbow-animation 1s linear infinite;
     transform: scale(0.95);
 }
