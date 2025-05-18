@@ -12,14 +12,14 @@ const btnReset = document.getElementById('btnReset');
 if (btnReset) {
   btnReset.addEventListener('click', searchReset);
 } else {
-  console.warn('searchReset: btnReset element not found.');
+  // console.warn('searchReset: btnReset element not found.');
 }
 
 const btnSearch = document.getElementById('btnSearch');
 if (btnSearch) {
   btnSearch.addEventListener('click', searchDestination);
 } else {
-  console.warn('btnSearch: btnSearch element not found.');
+  // console.warn('btnSearch: btnSearch element not found.');
 }
 
 
