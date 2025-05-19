@@ -101,7 +101,7 @@ function formatResultsDestination(div, input) {
 // Dependencies: fetch API, JSON data file (travel-recommendation.json), function.getCategoryFromInput(), function.formatResults(), and Bootstrap for styling
 // =========================================================
 function searchDestination() {
-  const json = './travel-recommendation.json';
+  const json = './travel_recommendation_api.json';
   const input = document.getElementById('destinationInput').value.toLowerCase().trim();
   // console.log("Search input: " + input);
 
