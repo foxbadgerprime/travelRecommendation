@@ -101,7 +101,7 @@ function formatResultsDestination(div, input) {
 // Dependencies: fetch API, JSON data file (travel-recommendation.json), function.getCategoryFromInput(), function.formatResults(), and Bootstrap for styling
 // =========================================================
 function searchDestination() {
-  const json = './_data/travel-recommendation.json';
+  const json = './travel-recommendation.json';
   const input = document.getElementById('destinationInput').value.toLowerCase().trim();
   // console.log("Search input: " + input);
 
@@ -157,7 +157,7 @@ if (contactForm) {
     const urlParams = new URLSearchParams(window.location.search);
     const destination = urlParams.get('destination');
     console.log('Destination:', destination);
-    if (destination) {
+    if (destination !== null) {
       message.value += `I am interested in learning more about ${destination}.`;
     }
 
