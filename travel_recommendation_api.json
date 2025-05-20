@@ -8,13 +8,15 @@
             "name": "Sydney, Australia",
             "imageUrl": "australia-sydney.jpg",
             "imageAlt": "Sydney Opera House",
-            "description": "A vibrant city known for its iconic landmarks like the Sydney Opera House and Sydney Harbour Bridge."
+            "description": "A vibrant city known for its iconic landmarks like the Sydney Opera House and Sydney Harbour Bridge.",
+            "timeZone": "Australia/Sydney"
           },
           {
             "name": "Melbourne, Australia",
             "imageUrl": "austrailia-melbourne.jpg",
             "imageAlt": "Melbourne City",
-            "description": "A cultural hub famous for its art, food, and diverse neighborhoods."
+            "description": "A cultural hub famous for its art, food, and diverse neighborhoods.",
+            "timeZone": "Australia/Melbourne"
           }
         ]
       },
@@ -26,13 +28,15 @@
             "name": "Tokyo, Japan",
             "imageUrl": "japan-tokyo.jpg",
             "imageAlt": "Tokyo City",
-            "description": "A bustling metropolis blending tradition and modernity, famous for its cherry blossoms and rich culture."
+            "description": "A bustling metropolis blending tradition and modernity, famous for its cherry blossoms and rich culture.",
+            "timeZone": "Asia/Tokyo"
           },
           {
             "name": "Kyoto, Japan",
             "imageUrl": "japan-kyoto.jpg",
             "imageAlt": "Kyoto City",
-            "description": "Known for its historic temples, gardens, and traditional tea houses."
+            "description": "Known for its historic temples, gardens, and traditional tea houses.",
+            "timeZone": "Asia/Tokyo"
           }
         ]
       },
@@ -44,13 +48,15 @@
             "name": "Rio de Janeiro, Brazil",
             "imageUrl": "brazil-rio-de-janeiro.jpg",
             "imageAlt": "Rio de Janeiro City",
-            "description": "A lively city known for its stunning beaches, vibrant carnival celebrations, and iconic landmarks."
+            "description": "A lively city known for its stunning beaches, vibrant carnival celebrations, and iconic landmarks.",
+            "timeZone": "America/Sao_Paulo"
           },
           {
-            "name": "SÃ£o Paulo, Brazil",
+            "name": "São Paulo, Brazil",
             "imageUrl": "brazil-sao-paulo.jpg",
             "imageAlt": "São Paulo City",
-            "description": "The financial hub with diverse culture, arts, and a vibrant nightlife."
+            "description": "The financial hub with diverse culture, arts, and a vibrant nightlife.",
+            "timeZone": "America/Sao_Paulo"
           }
         ]
       }
