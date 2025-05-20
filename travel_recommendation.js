@@ -71,7 +71,7 @@ function formatResults(div, category, results) {
       results.sort((a, b) => a.name.localeCompare(b.name));
       item.cities.sort((a, b) => a.name.localeCompare(b.name));
       item.cities.forEach(city => {
-        let options = { timeZone: city.timeZone, hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        let options = { timeZone: city.timeZone, hour12: true, hour: 'numeric', minute: 'numeric'/*, second: 'numeric'*/ };
         let cityTime = new Date().toLocaleTimeString('en-US', options);
         console.log(city.name);
         console.log(`Current time in ${city.name}:`, cityTime);
